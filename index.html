@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Lost Messages</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤓</text></svg>"
+    />
+
+    <style>
+      body {
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      #title {
+        font-size: 36px;
+        margin-top: 20px;
+      }
+
+      #soundboard-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .button {
+        background-color: #333;
+        border: none;
+        color: #fff;
+        padding: 20px;
+        margin: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+      }
+
+      .fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        background-color: #4caf50;
+        transition: width 1s linear;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 id="title">The Lost Messages</h1>
+    <div id="soundboard-container">
+      <button class="button" onclick="playSound('1.mp3', this)">
+        1<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('2.mp3', this)">
+        2<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('3.mp3', this)">
+        3<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('4.mp3', this)">
+        4<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('5.mp3', this)">
+        5<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('6.mp3', this)">
+        6<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('7.mp3', this)">
+        7<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('8.mp3', this)">
+        8<span class="fill"></span>
+      </button>
+      <button class="button" onclick="playSound('9.mp3', this)">
+        9<span class="fill"></span>
+      </button>
+    </div>
+
+    <script>
+      let audio;
+
+      function playSound(soundFile, button) {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+        audio = new Audio(soundFile);
+        audio.play();
+        fillButton(button);
+      }
+
+      function fillButton(button) {
+        const fill = button.querySelector(".fill");
+        fill.style.width = "0%";
+        setTimeout(() => {
+          const interval = setInterval(() => {
+            if (audio.ended) {
+              clearInterval(interval);
+              fill.style.width = "0";
+            } else {
+              const progress = (audio.currentTime / audio.duration) * 100;
+              fill.style.width = `${progress}%`;
+            }
+          }, 100);
+        }, 100);
+      }
+    </script>
+  </body>
+</html>
